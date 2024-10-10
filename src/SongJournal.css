@@ -1,4 +1,4 @@
-.song-diary {
+.song-journal {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
@@ -228,7 +228,7 @@ th {
 
 /* Responsive styles */
 @media screen and (max-width: 768px) {
-  .song-diary {
+  .song-journal {
     padding: 10px;
   }
 

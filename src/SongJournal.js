@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from './supabaseClient';
 import { searchTrack } from './spotifyApi';
-import './SongDiary.css';
+import './SongJournal.css';
 
-const SongDiary = () => {
+const SongJournal = () => {
   const [songs, setSongs] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentSong, setCurrentSong] = useState(null);
@@ -307,8 +307,8 @@ const SongDiary = () => {
   };
 
   return (
-    <div className="song-diary">
-      <h1>Song Diary</h1>
+    <div className="song-journal">
+      <h1>Song Journal</h1>
       <div className="table-controls">
         <button onClick={() => setShowArchived(!showArchived)} className="archive-toggle">
           {showArchived ? 'Show Active Songs' : 'Show Archived Songs'}
@@ -422,4 +422,4 @@ const SongDiary = () => {
   );
 };
 
-export default SongDiary;
+export default SongJournal;
