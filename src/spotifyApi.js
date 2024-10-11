@@ -27,26 +27,41 @@ const getAccessToken = async () => {
 };
 
 export const searchTrack = async (query) => {
-  const token = await getAccessToken();
-  
-  const result = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=1`, {
-    method: 'GET',
-    headers: { 'Authorization': 'Bearer ' + token }
-  });
+  try {
+    const token = await getAccessToken();
+    
+    const result = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=1`, {
+      method: 'GET',
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
 
-  const data = await result.json();
-  
-  if (data.tracks.items.length > 0) {
-    const track = data.tracks.items[0];
-    return {
-      title: track.name,
-      artist: track.artists[0].name,
-      album: track.album.name,
-      year: track.album.release_date.split('-')[0],
-      album_art: track.album.images[0].url,
-      preview_url: track.preview_url
-    };
+    const data = await result.json();
+    
+    console.log('Full Spotify API response:', JSON.stringify(data, null, 2));
+
+    if (data.tracks && data.tracks.items && data.tracks.items.length > 0) {
+      const track = data.tracks.items[0];
+      return {
+        title: track.name,
+        artist: track.artists[0].name,
+        album: track.album.name,
+        year: track.album.release_date ? track.album.release_date.split('-')[0] : 'Unknown',
+        album_art: track.album.images && track.album.images[0] ? track.album.images[0].url : null,
+        preview_url: track.preview_url,
+        link: track.external_urls.spotify,
+        duration_ms: track.duration_ms,
+        popularity: track.popularity,
+        track_number: track.track_number,
+        explicit: track.explicit,
+        uri: track.uri,
+        full_data: track
+      };
+    }
+    
+    console.log('No tracks found in Spotify response');
+    return null;
+  } catch (error) {
+    console.error('Error in searchTrack:', error);
+    return null;
   }
-  
-  return null;
 };

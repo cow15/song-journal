@@ -184,12 +184,12 @@ const SongJournal = () => {
       if (spotifyResult) {
         setFormData(prev => ({
           ...prev,
-          title: spotifyResult.title,
-          artist: spotifyResult.artist,
-          year: parseInt(spotifyResult.year),
-          link: spotifyResult.link,
-          album_art: spotifyResult.album_art,
-          preview_url: spotifyResult.preview_url
+          title: spotifyResult.title || '',
+          artist: spotifyResult.artist || '',
+          year: spotifyResult.year || '',
+          album_art: spotifyResult.album_art || '',
+          preview_url: spotifyResult.preview_url || '',
+          link: spotifyResult.link || ''
         }));
         setSpotifyResult(null);
         setSpotifySearch('');
@@ -226,10 +226,25 @@ const SongJournal = () => {
           </div>
           {spotifyResult && (
             <div className="spotify-result">
-              <img src={spotifyResult.album_art} alt="Album Art" />
+              {spotifyResult.album_art && <img src={spotifyResult.album_art} alt="Album Art" />}
               <div className="spotify-result-text">
-                <p><strong>{spotifyResult.title}</strong> by {spotifyResult.artist}</p>
-                <p>Year: {spotifyResult.year}</p>
+                <p><strong>{spotifyResult.title || 'Unknown Title'}</strong> by {spotifyResult.artist || 'Unknown Artist'}</p>
+                <p>Album: {spotifyResult.album || 'Unknown Album'}</p>
+                <p>Year: {spotifyResult.year || 'Unknown'}</p>
+                {spotifyResult.link && (
+                  <p>
+                    <a href={spotifyResult.link} target="_blank" rel="noopener noreferrer">
+                      Open Full Song in Spotify
+                    </a>
+                  </p>
+                )}
+                {spotifyResult.duration_ms && (
+                  <p>Duration: {Math.floor(spotifyResult.duration_ms / 60000)}:{((spotifyResult.duration_ms % 60000) / 1000).toFixed(0).padStart(2, '0')}</p>
+                )}
+                {spotifyResult.popularity !== undefined && <p>Popularity: {spotifyResult.popularity}</p>}
+                {spotifyResult.track_number && <p>Track Number: {spotifyResult.track_number}</p>}
+                {spotifyResult.explicit !== undefined && <p>Explicit: {spotifyResult.explicit ? 'Yes' : 'No'}</p>}
+                {spotifyResult.uri && <p>Spotify URI: {spotifyResult.uri}</p>}
               </div>
               <div className="spotify-buttons">
                 {spotifyResult.preview_url && (
@@ -291,6 +306,12 @@ const SongJournal = () => {
               placeholder="Album Art URL"
             />
             <input
+              name="link"
+              value={formData.link}
+              onChange={handleChange}
+              placeholder="Full Song Link"
+            />
+            <input
               name="preview_url"
               value={formData.preview_url}
               onChange={handleChange}
@@ -350,7 +371,15 @@ const SongJournal = () => {
                     </button>
                   )}
                 </td>
-                <td className="title-column">{song.title}</td>
+                <td className="title-column">
+                  {song.link ? (
+                    <a href={song.link} target="_blank" rel="noopener noreferrer">
+                      {song.title}
+                    </a>
+                  ) : (
+                    song.title
+                  )}
+                </td>
                 <td className="artist-column">{song.artist}</td>
                 <td className="year-column">{song.year}</td>
                 <td className="description-column">{song.description}</td>
@@ -377,7 +406,15 @@ const SongJournal = () => {
         {songs.map((song) => (
           <div key={song.id} className="song-card">
             <div className="song-card-header">
-              <h3 className="song-card-title">{song.title}</h3>
+              <h3 className="song-card-title">
+                {song.link ? (
+                  <a href={song.link} target="_blank" rel="noopener noreferrer">
+                    {song.title}
+                  </a>
+                ) : (
+                  song.title
+                )}
+              </h3>
               <span className="song-card-date">{formatDate(song.song_date)}</span>
             </div>
             <p className="song-card-artist">{song.artist}</p>
@@ -385,7 +422,9 @@ const SongJournal = () => {
               {song.album_art && <img src={song.album_art} alt="Album Art" className="song-card-album-art" />}
               <div className="song-card-info">
                 <p className="song-card-year">Year: {song.year}</p>
-                <p className="song-card-description">{song.description}</p>
+                <div className="song-card-description-box">
+                  <p className="song-card-description">{song.description}</p>
+                </div>
               </div>
             </div>
             <div className="song-card-actions">

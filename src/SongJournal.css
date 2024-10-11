@@ -383,9 +383,18 @@ th {
     color: #888;
   }
 
-  .song-card-description {
-    font-size: 14px;
+  .song-card-description-box {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    padding: 10px;
     margin-top: 10px;
+  }
+  
+  .song-card-description {
+    margin: 0;
+    font-size: 0.9em;
+    color: #333;
+    line-height: 1.4;
   }
 
   .song-card-actions {
