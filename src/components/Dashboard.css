@@ -1,0 +1,181 @@
+:root {
+  --primary-blue: #00b4d8;
+  --dark-blue: #023e8a;
+  --accent-green: #2d6a4f;
+  --light-blue: #caf0f8;
+  --off-white: #f8f9fa;
+}
+
+.dashboard {
+  background: var(--off-white);
+  min-height: 100vh;
+  color: var(--dark-blue);
+}
+
+.dashboard-hero {
+  background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.profile-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.profile-image {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 4px solid white;
+  margin-bottom: 20px;
+  box-shadow: 6px 6px 0 var(--accent-green);
+}
+
+.profile-container h1 {
+  font-size: 2.5rem;
+  color: white;
+  margin: 10px 0;
+  text-shadow: 2px 2px 0 var(--accent-green);
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  color: var(--light-blue);
+  margin: 15px 0;
+}
+
+.spotify-button {
+  display: inline-block;
+  background: var(--accent-green);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 20px;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+  transition: all 0.2s;
+}
+
+.spotify-button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+}
+
+.dashboard-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.dashboard-section {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  border: 3px solid var(--primary-blue);
+  box-shadow: 6px 6px 0 var(--dark-blue);
+}
+
+.dashboard-section h2 {
+  color: var(--dark-blue);
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  border-bottom: 3px solid var(--primary-blue);
+  padding-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.track-card {
+  display: grid;
+  grid-template-columns: 30px 50px 1fr auto;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  background: var(--light-blue);
+  border-radius: 4px;
+  margin-bottom: 8px;
+  border: 2px solid var(--primary-blue);
+  transition: all 0.2s;
+}
+
+.track-card:hover {
+  transform: translateX(5px);
+  box-shadow: 3px 3px 0 var(--dark-blue);
+}
+
+.track-number {
+  color: var(--dark-blue);
+  font-weight: bold;
+  text-align: center;
+}
+
+.track-card img {
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  border: 2px solid var(--dark-blue);
+}
+
+.track-info strong {
+  color: var(--dark-blue);
+}
+
+.track-info span {
+  color: var(--accent-green);
+}
+
+.play-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  border: none;
+  color: white;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--dark-blue);
+  transition: all 0.2s;
+}
+
+.play-button:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--dark-blue);
+}
+
+.toggle-24h {
+  background: var(--accent-green);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 2px 2px 0 var(--dark-blue);
+  transition: all 0.2s;
+}
+
+.toggle-24h:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--dark-blue);
+}
+
+@media (max-width: 768px) {
+  .profile-container h1 {
+    font-size: 2rem;
+  }
+  
+  .profile-stats {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+} 

@@ -1,0 +1,156 @@
+.dashboard {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.profile-header h1 {
+  color: var(--primary-blue);
+  margin: 0 0 8px 0;
+}
+
+.profile-stats {
+  color: #666;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dashboard-section {
+  background: white;
+  border: 2px solid var(--primary-blue);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.section-title {
+  color: var(--primary-blue);
+  text-align: center;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--primary-blue);
+}
+
+/* Track Rows */
+.tracks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.track-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.track-row:hover {
+  background-color: #f8f9fa;
+}
+
+.track-album-art {
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.track-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+}
+
+.track-name {
+  font-weight: 500;
+  color: var(--primary-blue);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-artist {
+  color: #666;
+  font-size: 0.9em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.play-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent-green);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.play-button:hover {
+  transform: scale(1.1);
+  background: var(--accent-green-dark);
+}
+
+/* Artists Grid */
+.artists-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  justify-items: center;
+}
+
+.artist-card {
+  text-align: center;
+}
+
+.artist-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+
+.artist-name {
+  font-weight: 500;
+  font-size: 0.9em;
+}
+
+.timestamp {
+  color: #666;
+  font-size: 0.8em;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+} 

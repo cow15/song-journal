@@ -20,20 +20,35 @@ const SongJournal = () => {
   }, [showArchived, sortOrder]);
 
   const fetchSongs = async () => {
+    const userId = localStorage.getItem('user_id');
+    if (!userId) {
+      console.error('No user ID found');
+      return;
+    }
+
     const { data, error } = await supabase
       .from('songs')
       .select('*')
+      .eq('user_id', userId)
       .eq('is_archived', showArchived)
-      .order('song_date', { ascending: sortOrder === 'asc' });
+      .order('song_date', { ascending: false });
 
     if (error) {
       console.error('Error fetching songs:', error);
-    } else {
-      setSongs(data);
+      return;
     }
+    setSongs(data || []);
   };
 
   const handleAddOrEdit = async (song) => {
+    const userId = localStorage.getItem('user_id');
+    console.log('Current user_id:', userId); // Debug log
+
+    if (!userId) {
+      console.error('No user ID found when trying to add/edit song');
+      return;
+    }
+
     let data, error;
     if (song.id) {
       ({ data, error } = await supabase
@@ -42,9 +57,17 @@ const SongJournal = () => {
         .eq('id', song.id)
         .select());
     } else {
+      const songWithUser = {
+        ...song,
+        user_id: userId,
+        song_date: song.song_date || new Date().toISOString()
+      };
+      
+      console.log('Attempting to insert song:', songWithUser); // Debug log
+
       ({ data, error } = await supabase
         .from('songs')
-        .insert([song])
+        .insert([songWithUser])
         .select());
     }
 
@@ -53,7 +76,6 @@ const SongJournal = () => {
     } else {
       fetchSongs();
       setIsModalOpen(false);
-      setCurrentSong(null);
     }
   };
 
@@ -226,34 +248,22 @@ const SongJournal = () => {
           </div>
           {spotifyResult && (
             <div className="spotify-result">
-              {spotifyResult.album_art && <img src={spotifyResult.album_art} alt="Album Art" />}
-              <div className="spotify-result-text">
-                <p><strong>{spotifyResult.title || 'Unknown Title'}</strong> by {spotifyResult.artist || 'Unknown Artist'}</p>
-                <p>Album: {spotifyResult.album || 'Unknown Album'}</p>
-                <p>Year: {spotifyResult.year || 'Unknown'}</p>
-                {spotifyResult.link && (
-                  <p>
-                    <a href={spotifyResult.link} target="_blank" rel="noopener noreferrer">
-                      Open Full Song in Spotify
-                    </a>
-                  </p>
-                )}
-                {spotifyResult.duration_ms && (
-                  <p>Duration: {Math.floor(spotifyResult.duration_ms / 60000)}:{((spotifyResult.duration_ms % 60000) / 1000).toFixed(0).padStart(2, '0')}</p>
-                )}
-                {spotifyResult.popularity !== undefined && <p>Popularity: {spotifyResult.popularity}</p>}
-                {spotifyResult.track_number && <p>Track Number: {spotifyResult.track_number}</p>}
-                {spotifyResult.explicit !== undefined && <p>Explicit: {spotifyResult.explicit ? 'Yes' : 'No'}</p>}
-                {spotifyResult.uri && <p>Spotify URI: {spotifyResult.uri}</p>}
+              <a 
+                href={spotifyResult.link} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="album-art-link"
+              >
+                <img src={spotifyResult.album_art} alt={`${spotifyResult.album} cover`} />
+              </a>
+              <div className="song-info">
+                <h3 className="song-title">{spotifyResult.title}</h3>
+                <p className="song-details">by {spotifyResult.artist}</p>
+                <p className="song-details">{spotifyResult.album} ({spotifyResult.year})</p>
               </div>
-              <div className="spotify-buttons">
-                {spotifyResult.preview_url && (
-                  <button onClick={togglePreview} className="preview-button">
-                    {isPlaying ? '⏸️ Pause Preview' : '▶️ Play Preview'}
-                  </button>
-                )}
-                <button onClick={applySpotifyData}>Use This Data</button>
-              </div>
+              <button className="use-data-button" onClick={applySpotifyData}>
+                Use This Data
+              </button>
             </div>
           )}
           <form onSubmit={handleSubmit} className="modal-form">
@@ -304,12 +314,6 @@ const SongJournal = () => {
               value={formData.album_art}
               onChange={handleChange}
               placeholder="Album Art URL"
-            />
-            <input
-              name="link"
-              value={formData.link}
-              onChange={handleChange}
-              placeholder="Full Song Link"
             />
             <input
               name="preview_url"

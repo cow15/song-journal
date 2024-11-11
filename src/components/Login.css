@@ -1,0 +1,26 @@
+.login-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #282828;
+  color: white;
+}
+
+.spotify-login-button {
+  background-color: #1DB954;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: transform 0.2s;
+}
+
+.spotify-login-button:hover {
+  transform: scale(1.05);
+} 
